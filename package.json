@@ -1,0 +1,37 @@
+{
+  "name": "@byaga/graphql-schema",
+  "version": "0.1.0",
+  "description": "Allows breaking a gql schema up so that each part can be defined close to the code it describes",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "clean": "rimraf ./lib",
+    "build": "npm run clean && tsc",
+    "lint": "eslint . --ext .ts",
+    "test": "jest",
+    "preversion": "npm run lint && npm test && npm run build"
+  },
+  "keywords": [
+    "graphql",
+    "gql"
+  ],
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/veryfine-hat/graphql-schema"
+    },
+  "author": "VeryFineHat",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.30",
+    "@typescript-eslint/eslint-plugin": "^7.3.1",
+    "@typescript-eslint/parser": "^7.3.1",
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "jest-html-reporters": "^3.1.7",
+    "jest-junit": "^16.0.0",
+    "rimraf": "^5.0.5",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.4.3"
+  }
+}
