@@ -13,14 +13,14 @@ it('should return an empty string if no schemas are included', () => {
 });
 
 it('should return the schema definition if a single schema is included', () => {
-  define('TestSchema', 'TestSchemaDefinition');
-  expect(build()).toEqual('TestSchemaDefinition');
+  define`type TestSchema {}`;
+  expect(build()).toEqual('type TestSchema {}');
 });
 
 it('should return the concatenated schema definitions', () => {
-  define('TestSchema1', 'TestSchemaDefinition1');
-  define('TestSchema2', 'TestSchemaDefinition2');
+  define`type TestSchema1 {}`;
+  define`type TestSchema2 {}`;
 
   const result = build();
-  expect(result).toEqual('TestSchemaDefinition1\nTestSchemaDefinition2');
+  expect(result).toEqual('type TestSchema1 {}\ntype TestSchema2 {}');
 });

@@ -1,27 +1,35 @@
 import { schemas } from "./storage";
 import {SchemaDefinition} from "./SchemaDefinition";
 
+let counter = 0;
+
 /**
  * Defines a new schema and adds it to the storage.
- *
- * @param  name - The name of the schema.
- * @param  schema - The actual schema definition.
- * @param  dependencies - The names of the schemas this schema depends on.
- * @throws If a schema with the same name already exists in the storage.
+ * @param strings - parts of this schema
+ * @param values - list of schemas that this schema may be built from
  */
-export function define(name: string, schema: string, dependencies: string[] = []): SchemaDefinition {
-  // Retrieve the schema with the given name from the storage.
-  let definition = schemas.get(name)
+export function define(strings: TemplateStringsArray, ...values: (SchemaDefinition | string)[]): SchemaDefinition {
+  let schema = '';
+  let name = (counter++).toString(36);
+  const dependsOn: string[] = []
+  strings.forEach((string, i) => {
+    schema += string;
+    if (values[i]) {
+      let dependency = values[i] as string;
+      if (typeof values[i] !== 'string') {
+        dependency = (values[i] as SchemaDefinition).name;
+        dependsOn.push(dependency)
+      } else name = dependency;
+      schema += dependency;
+    }
+  });
 
-  // If a schema with the same name already exists, throw an error.
-  if (definition) throw new Error(`Schema ${name} already defined`);
-
-  // Add the new schema to the storage.
-  schemas.set(name, {
+  const definition: SchemaDefinition = {
     name,
-    dependsOn: dependencies ?? [],
-    schema,
+    dependsOn: Array.from(new Set(dependsOn)),
+    schema: schema,
     included: false
-  })
-  return schemas.get(name) as SchemaDefinition
+  }
+  schemas.set(name, definition);
+  return definition;
 }
