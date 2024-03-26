@@ -1,6 +1,6 @@
 {
   "name": "@byaga/graphql-schema",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Allows breaking a gql schema up so that each part can be defined close to the code it describes",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
