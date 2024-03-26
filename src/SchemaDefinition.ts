@@ -1,6 +1,5 @@
 export interface SchemaDefinition {
   name: string
-  dependsOn: string[]
+  dependsOn: SchemaDefinition[]
   schema: string
-  included: boolean
 }

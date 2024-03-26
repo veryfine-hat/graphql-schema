@@ -41,7 +41,7 @@ type ${'Post'} {
   author: ${UserSchema}!
 }`;
 
-// Query.ts
+// resolvers.ts
 import { define } from '@byaga/graph-ql-schema';
 import { UserSchema } from './User';
 import { PostSchema } from './Post';
@@ -56,10 +56,10 @@ type ${'Query'} {
 
 // schema.ts
 import {build} from "@byaga/graph-ql-schema"
-import {resolvers} from "./resolvers"
+import {resolvers, QuerySchema} from "./resolvers"
 
 const schema = makeExecutableSchema({
-  typeDefs: build(),
+  typeDefs: build(QuerySchema),
   resolvers
 });
 

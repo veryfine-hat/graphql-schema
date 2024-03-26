@@ -10,25 +10,25 @@ let counter = 0;
  */
 export function define(strings: TemplateStringsArray, ...values: (SchemaDefinition | string)[]): SchemaDefinition {
   let schema = '';
-  let name = (counter++).toString(36);
-  const dependsOn: string[] = []
+  let name = values.find(v => typeof v === 'string') as string || (counter++).toString(36);
+  const dependsOn: SchemaDefinition[] = []
   strings.forEach((string, i) => {
     schema += string;
     if (values[i]) {
-      let dependency = values[i] as string;
+      let dependencyName = values[i] as string;
       if (typeof values[i] !== 'string') {
-        dependency = (values[i] as SchemaDefinition).name;
-        dependsOn.push(dependency)
-      } else name = dependency;
-      schema += dependency;
+        const dependency = values[i] as SchemaDefinition;
+        dependsOn.push(dependency);
+        dependencyName = dependency.name;
+      }
+      schema += dependencyName;
     }
   });
 
   const definition: SchemaDefinition = {
     name,
     dependsOn: Array.from(new Set(dependsOn)),
-    schema: schema,
-    included: false
+    schema: schema
   }
   schemas.set(name, definition);
   return definition;

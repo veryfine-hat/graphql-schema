@@ -6,14 +6,12 @@ import {schemas} from "./storage"
  * @param schema The specific schema to include
  * @param dependencyChain The schemas that led to this schema being included (for circular dependency checking)
  */
-export function include(schema: SchemaDefinition, dependencyChain: string[] = []): string {
-  if (dependencyChain.includes(schema.name) || schema.included) return ""
+export function include(schema: SchemaDefinition, dependencyChain: Record<string, boolean> = {}): string {
+  if (dependencyChain[schema.name]) return ""
+  dependencyChain[schema.name] = true
 
-  schema.included = true
-  const parts = schema.dependsOn.map(name => {
-    const dependency = schemas.get(name);
-    if (!dependency) throw new Error(`Missing Schema ${name}: Required By ${schema.name}`)
-    return include(dependency, [...dependencyChain, schema.name])
+  const parts = schema.dependsOn.map(dependency => {
+    return include(dependency, dependencyChain)
   })
 
   parts.push(schema.schema)

@@ -19,9 +19,9 @@ beforeEach(() => {
     const schema1 = define`type ${'Schema1'} { field: String }`
     const schema2 = define`type ${'Schema2'} { \nfield: String\n schema1: ${schema1}\n}`
     expect(schema2).toEqual(expect.objectContaining({
-      name: expect.any(String),
-      dependsOn: [schema1.name],
-      schema: `type Schema2 { \nfield: String\n schema1: ${schema1.name}\n}`
+      name: 'Schema2',
+      dependsOn: [schema1],
+      schema: `type Schema2 { \nfield: String\n schema1: Schema1\n}`
     }))
   })
 
@@ -29,8 +29,8 @@ beforeEach(() => {
     const schema1 = define`type ${'Schema1'} { field: String }`
     const schema2 = define`type ${'Schema2'} {\n field: String\n schema1: ${schema1}\n schema2: ${schema1}\n}`
     expect(schema2).toEqual(expect.objectContaining({
-      name: expect.any(String),
-      dependsOn: [schema1.name],
+      name: 'Schema2',
+      dependsOn: [schema1],
       schema: `type Schema2 {\n field: String\n schema1: Schema1\n schema2: Schema1\n}`
     }))
   })
