@@ -1,5 +1,4 @@
 import {SchemaDefinition} from "./SchemaDefinition";
-import {schemas} from "./storage"
 
 /**
  * Recurse down a schema dependency chain to build out the full schema

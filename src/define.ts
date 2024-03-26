@@ -10,7 +10,7 @@ let counter = 0;
  */
 export function define(strings: TemplateStringsArray, ...values: (SchemaDefinition | string)[]): SchemaDefinition {
   let schema = '';
-  let name = values.find(v => typeof v === 'string') as string || (counter++).toString(36);
+  const name = values.find(v => typeof v === 'string') as string || (counter++).toString(36);
   const dependsOn: SchemaDefinition[] = []
   strings.forEach((string, i) => {
     schema += string;
